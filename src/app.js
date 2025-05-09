@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./config/database.js";
 import authRouter from "./routes/auth.js";
+import taskRouter from "./routes/task.js";
 dotenv.config();
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(
 );
 
 app.use("/api", authRouter);
+app.use("/api", taskRouter);
 connectDB()
   .then(() => {
     console.log("Database connection established...");
