@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
 import { validateSignUpData } from "../utils/validateSignUpData.js";
+import requireAuth from "../middlewares/requireAuth.js";
 const authRouter = express.Router();
 
 authRouter.post("/register", async (req, res) => {
@@ -74,6 +75,20 @@ authRouter.post("/logout", async (req, res) => {
     expires: new Date(Date.now()),
   });
   res.status(200).json({ message: "User logout successfully!" });
+});
+
+authRouter.get("/me", requireAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    res.json({ message: "User authenticated successfully!", data: user });
+  } catch (error) {
+    console.error("Get user error:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
 });
 
 export default authRouter;
