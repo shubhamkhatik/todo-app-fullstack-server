@@ -26,7 +26,7 @@ taskRouter.post("/create", async (req, res) => {
     const createdTask = await task.save();
     res.status(201).json(createdTask);
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error" ,error});
   }
 });
 
