@@ -17,6 +17,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "https://todo-app-fullstack-client.vercel.app",
+      "https://todo-app-fullstack-client-git-main-shubhamkhatiks-projects.vercel.app",
+      "https://todo-app-fullstack-client-1qqoqgsdw-shubhamkhatiks-projects.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
