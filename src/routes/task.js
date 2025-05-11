@@ -32,7 +32,8 @@ taskRouter.post("/create", async (req, res) => {
 
 // Get tasks with search, filter, pagination
 taskRouter.get("/tasks", async (req, res) => {
-  const { page = 1, limit = 10, status, search, date } = req.query;
+  const { limit = 10, status, search, date } = req.query;
+  let { page = 1} = req.query;
 
   const query = { user: req.user._id };
 
@@ -42,6 +43,7 @@ taskRouter.get("/tasks", async (req, res) => {
 
   if (search) {
     query.name = { $regex: search, $options: "i" }; // Search by task name (case-insensitive)
+    page = 1; // Reset to first page when searching
   }
 
   if (date) {
@@ -55,6 +57,8 @@ taskRouter.get("/tasks", async (req, res) => {
   }
 
   try {
+    console.log("page:", page);
+    
     const tasks = await Task.find(query)
       .limit(limit * 1)
       .skip((page - 1) * limit)
